@@ -1,0 +1,29 @@
+# This file orchestrates running both the Node.js web app and the Python ML service.
+version: '3.8'
+
+services:
+  # The Node.js Web Application Service
+  webapp:
+    build: . # Build the image from the Dockerfile in the current directory
+    ports:
+      - "3000:3000" # Map port 3000 on the host to port 3000 in the container
+    environment:
+      # Pass the ML service URL to the webapp container
+      - ML_SERVICE_URL=http://ml_service:5000/predict
+    depends_on:
+      - ml_service # This service will not start until ml_service is running
+    networks:
+      - histopathology-net
+
+  # The Python Machine Learning Service
+  ml_service:
+    build: ./ml_service # Build the image from the Dockerfile in the ml_service directory
+    ports:
+      - "5000:5000" # Map port 5000 for local testing if needed
+    networks:
+      - histopathology-net
+
+# Define the network that allows services to communicate
+networks:
+  histopathology-net:
+    driver: bridge

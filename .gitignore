@@ -1,0 +1,17 @@
+#Ignore Node.js dependencies and log files
+node_modules/
+npm-debug.log*
+yarn-error.log
+package-lock.json
+
+#Ignore Python artifacts
+pycache/
+*.pyc
+
+#Ignore common editor and OS files
+.vscode/
+.idea/
+.DS_Store
+
+#Ignore environment variables file (important for security if you add one later)
+.env
